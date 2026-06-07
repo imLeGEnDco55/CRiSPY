@@ -59,6 +59,8 @@ enum AppState {
 // Global variables
 HWND g_hwndEditKey = NULL;
 HWND g_hwndMain = NULL;
+HWND g_hwndFLStudio = NULL;
+bool g_isAttachedToFL = false;
 AppState g_appState = STATE_KEY_INPUT;
 std::wstring g_apiKey = L"";
 std::wstring g_inputFilePath = L"";
@@ -923,6 +925,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     }
     case WM_TIMER:
         if (wParam == TIMER_SPINNER) {
+            // ----- LÓGICA DEL TUMOR PARA FL STUDIO -----
+            if (!g_isAttachedToFL) {
+                // Buscar la ventana principal de FL Studio (su clase interna es "TFruityLoopsMainForm")
+                g_hwndFLStudio = FindWindowW(L"TFruityLoopsMainForm", NULL);
+                
+                if (g_hwndFLStudio != NULL) {
+                    // ¡Encontramos al anfitrión! Nos adherimos a él.
+                    // Cambiamos el "Dueño" de nuestra ventana para que sea FL Studio
+                    SetWindowLongPtrW(hWnd, GWLP_HWNDPARENT, (LONG_PTR)g_hwndFLStudio);
+                    
+                    // Aseguramos que se mantenga siempre arriba (Always on Top)
+                    SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                    
+                    g_isAttachedToFL = true;
+                }
+            } else {
+                // Si ya estamos adheridos, verificamos si FL Studio sigue vivo
+                if (!IsWindow(g_hwndFLStudio)) {
+                    // El anfitrión murió (Cerraste FL Studio). Morimos con él.
+                    PostQuitMessage(0);
+                    return 0;
+                }
+            }
+            // -------------------------------------------
+
             // Update rotating spinner angles
             g_spinnerAngle += 2.5f;
             if (g_spinnerAngle >= 360.0f) g_spinnerAngle = 0.0f;
