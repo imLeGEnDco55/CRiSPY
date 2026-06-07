@@ -78,6 +78,26 @@ El script se encargará de:
 
 ---
 
+##  Clave de API de NVIDIA y Gestión de Créditos
+Para que el procesamiento funcione, necesitas obtener una API Key de NVIDIA Studio Voice NIM. Es vital entender cómo funciona el modelo de evaluación en la nube de NVIDIA antes de procesar lotes grandes de audio:
+
+**Cómo obtener tu API Key:**
+1. Regístrate en el [NVIDIA API Catalog](https://build.nvidia.com/).
+2. Busca el modelo **Studio Voice** y genera tu API Key personal (no se requiere tarjeta de crédito).
+
+**Sistema de Créditos (Capa Gratuita):**
+- **Saldo Inicial:** Al crear tu cuenta, NVIDIA te otorga **1,000 créditos gratuitos** pensados estrictamente para evaluación y prototipado.
+- **Cobro por Petición, no por Minuto:** A diferencia de otros servicios, NVIDIA no descuenta créditos basados en la duración del archivo de audio. El consumo se calcula por **petición (request)** enviada al servidor.
+- **Límites de Velocidad (Rate Limits):** El endpoint de prueba tiene un límite de **40 peticiones por minuto**. 
+  - 💡 *Sugerencia de flujo de trabajo:* Para aprovechar al máximo tus créditos y no chocar con el límite de velocidad de la API, **envía pistas vocales largas y consolidadas**. Evita enviar decenas de sílabas o cortes cortos por separado.
+
+**Limitaciones a Largo Plazo:**
+- Los créditos de prueba **no se renuevan mensualmente** y el servicio en la nube no permite recargar saldo pagando por consumo para uso personal.
+- Una vez agotados los 1,000 créditos iniciales, puedes solicitar una extensión (hasta 5,000 créditos en total) si registras un **correo electrónico empresarial**, lo cual activa un *trial* de 90 días de la licencia *NVIDIA AI Enterprise*.
+- Para un uso ilimitado a nivel de producción comercial sin depender de la nube, se recomienda descargar el contenedor NIM o el modelo de pesos abiertos (*Open Weights*) usando el programa de desarrolladores de NVIDIA y correrlo localmente (requiere una GPU NVIDIA de la serie RTX).
+
+---
+
 ## Contribuciones y Licencia
 
 Este proyecto es de código abierto.
