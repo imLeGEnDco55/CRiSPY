@@ -1,0 +1,42 @@
+# Compilación y archivos temporales de C++ / CMake
+build/
+build-vst3/
+out/
+bin/
+cmake-build-*/
+x64/
+x86/
+ARM/
+ARM64/
+
+# Archivos de configuración de editores e IDEs
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.sln
+*.vcproj
+*.vcxproj
+*.filters
+*.db
+*.opendb
+
+# Archivos de Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos de diseño grandes (el archivo PNG optimizado ya se incluye)
+*.psd
